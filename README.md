@@ -229,6 +229,7 @@ Harnesses built to probe wording, ordering or calibration, listed when they ship
 - [FlorianRiquelme/jev-kit](https://github.com/FlorianRiquelme/jev-kit) - Harness whose example run on 15 project fixtures gets 81.7% overall and flags one indirect compound question at 46.7%, below a coin flip.
 - [rssr25/system-one-bench](https://github.com/rssr25/system-one-bench) - Suites A to I on generated manifests (n=500) for Jev and Laya: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
 - [smkrv/jev-calibrate](https://github.com/smkrv/jev-calibrate) - Grades a question's answers against labels: vague criteria 0.69 to 0.89 accuracy on the bundled example, rewritten criteria 0.92 to 1.00. `jev-1.13.0`
+- [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Recomputes the confidence and expected-score identities against published artifacts instead of live calls: vendor-channel examples 10/10, recorded responses 843/854, hand-authored fixtures 115/296, with all 121 fractional-part-of-score anomalies in the last group. `jev-1.13.0 · n=1240`
 - [xxlya/evaljev](https://github.com/xxlya/evaljev) - Derives the confidence-margin formula from live traces and measures the distribution shift between batched and separate requests. `n=351 decisions`
 
 ## Write-ups, critiques and evidence ledgers
