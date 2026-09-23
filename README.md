@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-109 entries · almost all against `jev-1.13.0` · snapshot 2026-09-23 · numbers are the authors' own
+110 entries · almost all against `jev-1.13.0` · snapshot 2026-09-23 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -229,7 +229,7 @@ Harnesses built to probe wording, ordering or calibration, listed when they ship
 - [FlorianRiquelme/jev-kit](https://github.com/FlorianRiquelme/jev-kit) - Harness whose example run on 15 project fixtures gets 81.7% overall and flags one indirect compound question at 46.7%, below a coin flip.
 - [rssr25/system-one-bench](https://github.com/rssr25/system-one-bench) - Suites A to I on generated manifests (n=500) for Jev and Laya: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
 - [smkrv/jev-calibrate](https://github.com/smkrv/jev-calibrate) - Grades a question's answers against labels: vague criteria 0.69 to 0.89 accuracy on the bundled example, rewritten criteria 0.92 to 1.00. `jev-1.13.0`
-- [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Recomputes the confidence and expected-score identities against published artifacts instead of live calls: vendor-channel examples 10/10, recorded responses 843/854, hand-authored fixtures 115/296, with all 121 fractional-part-of-score anomalies in the last group. `jev-1.13.0 · n=1240`
+- [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Checks published Jev outputs against the confidence and expected-score identities without live calls: 279,842 answers from 88 repositories, 96.79% conform; one Jev-compatible implementation uses normalised entropy instead and reorders 9.96% of pairs. `n=279,842 answers`
 - [xxlya/evaljev](https://github.com/xxlya/evaljev) - Derives the confidence-margin formula from live traces and measures the distribution shift between batched and separate requests. `n=351 decisions`
 
 ## Write-ups, critiques and evidence ledgers
