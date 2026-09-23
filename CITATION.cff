@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If this list is useful in your work, please cite it as a dated snapshot and cite the individual studies you rely on."
+type: dataset
+title: "Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model"
+authors:
+  - family-names: Lan
+    given-names: Yifan
+repository-code: "https://github.com/Yifan-Lan/awesome-jev-robustness"
+url: "https://github.com/Yifan-Lan/awesome-jev-robustness"
+license: CC0-1.0
+date-released: 2026-09-23
+keywords:
+  - Jev
+  - TypeSafe
+  - System One
+  - calibration
+  - robustness
+  - decision models
