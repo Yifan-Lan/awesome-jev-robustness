@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-110 entries · almost all against `jev-1.13.0` · snapshot 2026-09-23 · numbers are the authors' own
+119 entries · almost all against `jev-1.13.0` · snapshot 2026-09-24 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -30,7 +30,8 @@ One line per property, as the linked authors report it. Where two studies disagr
 
 | Property | Finding | Sources |
 |---|---|---|
-| Option order | No measurable effect. Reversing two options moved probability by 0.005 and flipped 0 of 400 argmaxes; 4 permutations of 139 items flipped 5%, within repeat noise. | [calibration-audit](https://github.com/jujumilk3/jev-calibration-audit), [JevBench issue 40](https://github.com/fstandhartinger/jevbench/issues/40) |
+| Option order | Negligible on most tasks: reversing two options moved probability by 0.005 and flipped 0 of 400 argmaxes. On ambiguous or value-laden questions it matters: the first-listed option gained 0.37. | [calibration-audit](https://github.com/jujumilk3/jev-calibration-audit), [JevBench issue 40](https://github.com/fstandhartinger/jevbench/issues/40), [jev-bias-audit](https://github.com/pawarbi/jev-bias-audit) |
+| Option names | Names carry meaning the rubric does not override: binding no/yes instead of 0/1 to the same two rubrics dropped hosted Jev from AUC .81 to .58; random-string names remove the effect. | [Sun and Xu](https://arxiv.org/abs/2609.26758) |
 | Repeated identical calls | Near-deterministic but not exact: std 0.001 to 0.015, 15 distinct answer sets in 50 identical requests. Larger option sets move more. | [calibration-audit](https://github.com/jujumilk3/jev-calibration-audit), [jev-labs](https://github.com/copyleftdev/jev-labs), [jev-vs-ml](https://github.com/vianaR25/jev-vs-ml) |
 | Noul vs two-option Choice | Same judgment, different number: mean absolute gap 0.125, over 0.2 on one item in six. | [calibration-audit](https://github.com/jujumilk3/jev-calibration-audit), [jev-synthetic-survey](https://github.com/jjd-lab/jev-synthetic-survey) |
 | A statement and its negation | P(x) + P(not x) averages 1.02 but ranges 0.71 to 1.42; a plain paraphrase moves the answer as much as negation does. | [calibration-audit](https://github.com/jujumilk3/jev-calibration-audit), [jev-orderby-bench](https://github.com/yodablocks/jev-orderby-bench), [jev-first-look](https://github.com/colinmcnamara/jev-first-look) |
@@ -44,6 +45,7 @@ One line per property, as the linked authors report it. Where two studies disagr
 ## Contents
 
 - [Official material](#official-material)
+- [Papers](#papers)
 - [Calibration and confidence](#calibration-and-confidence)
 - [Consistency and invariance](#consistency-and-invariance)
 - [Input perturbation and context](#input-perturbation-and-context)
@@ -64,6 +66,14 @@ One line per property, as the linked authors report it. Where two studies disagr
 - [Noul self-consistency cookbook (TypeSafe docs)](https://docs.typesafe.ai/cookbooks/consistency_noul_cookbook) - 14 Noul questions repeated 15 times on one claim: standard deviation 0.0102; one borderline answer spans 0.43 to 0.53 across the 0.5 threshold.
 - [TypeSafe evals dashboard](https://evals.typesafe.ai) - Four workflows against frontier models, 61.7% to 76.0% agreement; the reference label is the average of two frontier models.
 
+## Papers
+
+Preprints that evaluate hosted Jev on a robustness or calibration question. Application papers are in `data/task_benchmarks.tsv`.
+
+- [Evaluating Decision Models for Text Annotation in Computational Social Science](https://arxiv.org/abs/2609.24574) - Ibrahim and Zaki. 18 social-science annotation tasks against 19 LLMs: trails the best LLM by a median 11.6 macro-F1, better calibrated than 16 of 19, but reports high confidence at near chance on empathy. `jev-1.13.0 · n=7,977 items`
+- [JEV-as-a-Judge: Accept When Confident, Escalate When Unsure](https://arxiv.org/abs/2609.26550) - Li, Miao, Krishnan and Padman. Jev as a judge against 16 judges with human adjudication: within 3 points of the strongest on ordinary preference, larger gaps on derivations and elaborately written wrong answers, concentrated in low-confidence decisions. `jev-1.13.0`
+- [Type-Safe Is Not Error-Free: A Constrained Decision Head Follows the Option Name, Not the Rubric Bound to It](https://arxiv.org/abs/2609.26758) - Sun and Xu. Swapping only which option name is bound to which rubric changes 70.4 answers per hundred in open Jev-like heads; hosted Jev drops from AUC .81 to .58, 24x its test-retest floor. Random-string names remove the effect. `jev-1.13.0 · n=1,200 decisions`
+
 ## Calibration and confidence
 
 Whether the probabilities mean what they say.
@@ -76,9 +86,10 @@ Whether the probabilities mean what they say.
 - [Calibration, decomposition and shadow evals (beri.net)](https://beri.net/article/typesafe-jev-typed-decision-model-calibration-decompo) - Ties together the phishing decomposition study (62.6% as one question, 95.0% as five) and the 900-ticket OOD test (ECE 0.107, 4.4x the noise floor).
 - [Can you trust Jev's confidence? (Anthus)](https://anth.us/blog/can-you-trust-jev-confidence) - By question type on 8,801 examples: Noul stated 79.0% vs 72.3% actual, Choice 91.4% vs 76.1%; the 50 to 95% band was only 50 to 57% correct.
 - [cx295410-dot/jev-biomedical-evidence-screening](https://github.com/cx295410-dot/jev-biomedical-evidence-screening) - Frozen predictions on SYNERGY systematic-review data scored for discrimination, calibration and screening workload at high recall. `jev-1.13.0 · n=17,191 pairs`
+- [gkastanis/d3code-calibration](https://github.com/gkastanis/d3code-calibration) - When Jev said about 0.85 the answer was yes only 45% of the time; the ranking held up far better than the number, and calibration fit on one dataset did not transfer. `n=791 items at 0.85`
 - [jourdanlabs/assay-001](https://github.com/jourdanlabs/assay-001) - Calibrated on CLINC150 (ECE 0.020) but overconfident on Banking77 (ECE 0.094); zero type errors in 8,576 responses. `jev-1.13.0 · n=8,576 responses`
 - [Legal documents yes/no test (X article)](https://x.com/i/article/2100463318209048850) - 544 legal documents, 109 yes/no judgments: Brier 0.030; all 96 answers outside the 0.2 to 0.8 band were correct.
-- [pozapas/jev-calibrated-narrative-coding](https://github.com/pozapas/jev-calibrated-narrative-coding) - Paper artifact converting police crash narratives to coded variables; audits ECE, calibration slope and selective prediction against coded fields and a human gold set. `jev-1.13.0 · pre-registered design`
+- [pozapas/jev-calibrated-narrative-coding](https://github.com/pozapas/jev-calibrated-narrative-coding) - Code for arXiv 2609.24052, converting police crash narratives to coded variables; audits ECE, calibration slope and selective prediction against coded fields and a human gold set. `jev-1.13.0 · pre-registered design`
 - [rubinagentagi-tech/jev-heart-risk-bench](https://github.com/rubinagentagi-tech/jev-heart-risk-bench) - 5,000 CDC heart-risk respondents: AUC 0.773 vs 0.794 for a chat LLM, and stated probabilities badly miscalibrated (Brier skill -1.3). `jev-1.13.0 · n=5,000 respondents`
 - [Running-Dolphins/jev-bench](https://github.com/Running-Dolphins/jev-bench) - 12 public classification tasks, 500 items each; reliability tables show over- and under-confidence varying sharply by task (Banking77 top band: stated 0.98, actual 0.90). `jev-1.13.0 · n=6,000 items`
 - [WanLanglin/jev-skills](https://github.com/WanLanglin/jev-skills) - Own calibration on 4,995 real coding-agent decisions: Noul ECE 0.169, Choice ECE 0.226. `n=4,995 decisions`
@@ -89,6 +100,7 @@ Whether the probabilities mean what they say.
 
 - [dtduc-git/jevnav](https://github.com/dtduc-git/jevnav) - 41 of 41 element-selection decisions correct, but in loop mode confidence does not separate right from wrong (both land 0.39 to 0.99). `jev-1.13.0`
 - [ItBayMax/typesafe-ai-jev-example](https://github.com/ItBayMax/typesafe-ai-jev-example) - 28 live calls vs hand-written mock probabilities: the real distribution is extreme (mass at 0 and 1) and prefers a clean fallback option to picking among wrong ones. `jev-1.13.0 · n=28 calls`
+- [manankumarthakkar/jev-escalation-gate](https://github.com/manankumarthakkar/jev-escalation-gate) - The same gate scored 100% or 69.5% on the same model and prompt depending only on how the wrong answers were built; 97% stated confidence was right 97.6% of the time. `jev-1.13.0 · n=600 items`
 - [nikkoxgonzales/jev-certify](https://github.com/nikkoxgonzales/jev-certify) - Conformal thresholds on CLINC150: the achievable risk bound floors at 1.95% because Jev returns exactly 1.0 confidence on 56.4% of answers, nine of them wrong. `jev-1.13.0 · n=2,412 answers`
 - [scarif-labs/jev-software-decision-benchmark](https://github.com/scarif-labs/jev-software-decision-benchmark) - Dependency auto-merge decisions: AUROC 0.851 in distribution, but the tuned threshold fails to transfer out of distribution (50% precision, 15 unsafe merges on 185 cases). `jev-latest · n=185 OOD cases`
 - [Support-ticket benchmark (thoughts.jock.pl)](https://thoughts.jock.pl/p/jev-typesafe-system-one-model-benchmark-2026) - 40 support tickets: Choice confidence is bimodal while Score confidence clusters mid-range, so one threshold cannot serve both.
@@ -124,6 +136,7 @@ Whether the same judgment comes back the same way.
 - [erendikmenn/jev-rag-benchmark](https://github.com/erendikmenn/jev-rag-benchmark) - 1,044 Turkish questions: same gold-passage recall as Cohere Rerank 3.5, but permuting candidate order gives mean Spearman 0.262 with the original ranking. `jev-1.13.0 · n=1,044 questions`
 - [finnhll/jev-eval](https://github.com/finnhll/jev-eval) - 282 trials: batching independence and repeat stability (sd 0.0075 or less) confirmed, but reshuffling options moved a winning probability from 0.62 to 0.48. `jev-1.13.0 · n=282 trials`
 - [heddendorp/jev-sort](https://github.com/heddendorp/jev-sort) - Pairwise sorting on 100 tickets: 92.9% to 98.4% agreement with the stated policy, with non-transitive triples. `jev-latest · n=100 tickets`
+- [pawarbi/jev-bias-audit](https://github.com/pawarbi/jev-bias-audit) - On a value-laden binary question the first-listed option gains 0.37, which explained most of a 67% preference; on 1,012 BBQ items 98.7% on ambiguous contexts, 96.5% on clear ones. `jev-1.13 · n=1,012 items`
 - [yodablocks/jev-orderby-bench](https://github.com/yodablocks/jev-orderby-bench) - Six pre-registered gates: pass on topic membership, four fail on graded product relevance; 40 rows per request breaks a gate one row per request passes; 53 of 360 rows tie at 0.99. `jev-1.13.0 · n=666 rows · pre-registered`
 - [yottayoshida/jevfuzz](https://github.com/yottayoshida/jevfuzz) - Renames question IDs and reorders options and JSON keys: six confirmed decision changes in 100 mutations over 10 states. `jev-latest · n=100 mutations`
 
@@ -217,6 +230,7 @@ Probes of the limits TypeSafe documents and of others found since.
 
 Matched English and non-English items, so the effect of input language is isolated.
 
+- [4nt0ineb/typed-decision-bench](https://github.com/4nt0ineb/typed-decision-bench) - English vs French intents: Jev loses one point (85% to 84%) where the other models lose four to eight; ECE 0.07 in English, 0.06 in French. `jev-1.13.0 · n=60 intents × 500`
 - [AHTOOOXA/jev-cyrillic-audit](https://github.com/AHTOOOXA/jev-cyrillic-audit) - 600 paired XNLI items: Russian 77.3% vs English 88.3%, ECE 0.096 vs 0.032; traced to cross-lingual entailment, not tokenization or length. `jev-1.13.0 · n=600 pairs · pre-registered`
 - [ArmanJR/Jev-Persian-Benchmark](https://github.com/ArmanJR/Jev-Persian-Benchmark) - 480 authored Persian and Finglish questions in 10 categories: 99.6% Choice, 99.4% Noul, 95.0% Score, parity with English. `jev-1.13.0 · n=480 questions`
 - [mahlernim/jev-korean-benchmark](https://github.com/mahlernim/jev-korean-benchmark) - Korean vs English on four public exams, 100 per cell: no cost on reading comprehension, 8 points behind GPT-5.6 Luna on the Korean medical exam. `n=800 questions`
@@ -226,22 +240,24 @@ Matched English and non-English items, so the effect of input language is isolat
 
 Harnesses built to probe wording, ordering or calibration, listed when they ship a measured run.
 
+- [brida-ai/reflexbench](https://github.com/brida-ai/reflexbench) - Reports semantic accuracy, calibration, language consistency and option-order robustness separately rather than one score, on a frozen 111-case cohort. `jev-1.13.0 · n=111 cases`
 - [FlorianRiquelme/jev-kit](https://github.com/FlorianRiquelme/jev-kit) - Harness whose example run on 15 project fixtures gets 81.7% overall and flags one indirect compound question at 46.7%, below a coin flip.
-- [rssr25/system-one-bench](https://github.com/rssr25/system-one-bench) - Suites A to I on generated manifests (n=500) for Jev and Laya: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
+- [rssr25/sys1bench](https://github.com/rssr25/sys1bench) - sys1bench (formerly system-one-bench): suites on generated manifests (n=500) for Jev, Laya and Kev: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
 - [smkrv/jev-calibrate](https://github.com/smkrv/jev-calibrate) - Grades a question's answers against labels: vague criteria 0.69 to 0.89 accuracy on the bundled example, rewritten criteria 0.92 to 1.00. `jev-1.13.0`
-- [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Checks published Jev outputs against the L0/L1/L2 identities with no live calls, structure-aware (multi-label and batch outputs excluded from scoring). Census: 275,852 categorical answers across 88 repos, 98.22% conform; deviations are dominated not by broken output but by 20 implementations using a different confidence law (e.g. laya-mps, normalised-entropy signature, re-verified sum=1.000). `n=275,852 · jev-1.13.0`
+- [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Checks published Jev outputs against the confidence and expected-score identities without live calls: 279,842 answers from 88 repositories, 96.79% conform; one Jev-compatible implementation uses normalised entropy instead and reorders 9.96% of pairs. `n=279,842 answers`
 - [xxlya/evaljev](https://github.com/xxlya/evaljev) - Derives the confidence-margin formula from live traces and measures the distribution shift between batched and separate requests. `n=351 decisions`
 
 ## Write-ups, critiques and evidence ledgers
 
 Collections that recompute or gather other people's robustness numbers.
 
+- [manankumarthakkar/jev-field-report](https://github.com/manankumarthakkar/jev-field-report) - Why eleven audits of the same model report 44.7% to 95.9% accuracy and ECE 0.023 to 0.793: whether an abstain option existed, which primitive, whether the task was novel. `jev-1.13.0 · 11 audits`
 - [SamuelSacco/jev-exploration](https://github.com/SamuelSacco/jev-exploration) - Recomputes every published Jev ECE against its sampling noise floor: 2.1 to 2.5x the floor at every difficulty tier; outputs quantised to 0.01 and can be exact 0 or 1. `jev-1.13.0`
 - [Zaious/jev-capability-atlas](https://github.com/Zaious/jev-capability-atlas) - Bilingual atlas of where the claim holds, organised on one axis: whether the answer is recoverable from the state or needs outside knowledge.
 
 ## Related lists
 
-General directories of Jev projects, which this page does not duplicate:
+General directories of Jev projects, and a paper-centred evidence survey, which this page does not duplicate:
 
 - [yibie/awesome-jev](https://github.com/yibie/awesome-jev)
 - [AbdelStark/awesome-typesafe-jev](https://github.com/AbdelStark/awesome-typesafe-jev)
@@ -249,6 +265,7 @@ General directories of Jev projects, which this page does not duplicate:
 - [wh000wh000/awesome-jev-live](https://github.com/wh000wh000/awesome-jev-live)
 - [andyrewlee/awesome-system-one](https://github.com/andyrewlee/awesome-system-one)
 - [notsointresting/awesome-jev-family](https://github.com/notsointresting/awesome-jev-family)
+- [eurekaleo/awesome-jev-survey](https://github.com/eurekaleo/awesome-jev-survey)
 
 ## Contributing
 
@@ -264,7 +281,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-09-23.}
+  note         = {Curated list. Accessed 2026-09-24.}
 }
 ```
 
