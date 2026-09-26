@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-119 entries · almost all against `jev-1.13.0` · snapshot 2026-09-24 · numbers are the authors' own
+123 entries · almost all against `jev-1.13.0` · snapshot 2026-09-26 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -115,6 +115,10 @@ Whether the probabilities mean what they say.
 - [simonmesmith/jev-probability-experiment](https://github.com/simonmesmith/jev-probability-experiment) - 68 coin, dice and card problems: Noul is closest to the true probability (MAE 5.6 points); asking for the outcome as a Choice is far worse (MAE 21.1). `jev-1.13.0 · n=68 problems`
 - [TakumiNoguchi2004/jev-noul-vs-choice](https://github.com/TakumiNoguchi2004/jev-noul-vs-choice) - Root-causes the fair-die collapse: it is specific to Choice; independent Nouls recover 1/6 for every face, and the Choice bias grows with option count. `jev-1.13.0 · n=50 trials`
 
+### Other
+
+- [yanng981/system-one-benchmark](https://github.com/yanng981/system-one-benchmark) - Accuracy, ECE and latency of six System One models through one /v1/systemone contract; Jev leads multilingual (0.872 non-English average) at ECE 0.020 to 0.083, across SST-2, TREC, Banking77 and eight languages. `jev-1.13.0 · n=300/dataset`
+
 ## Consistency and invariance
 
 Whether the same judgment comes back the same way.
@@ -147,6 +151,10 @@ Whether the same judgment comes back the same way.
 - [JLegends/opencode-jev-compaction](https://github.com/JLegends/opencode-jev-compaction) - Noul at 0.996 on hard facts but 0.003 to 0.28 on judgment calls; a statement and its negation both scored about 0.95 until switched to explicit-criteria Choice.
 - [nyarlathoteppppp/pi-heed](https://github.com/nyarlathoteppppp/pi-heed) - Slightly under-confident probabilities, flat latency in question count, and strong anchoring on the order of state fields. `jev-latest`
 - [yodablocks/duckdb-jev](https://github.com/yodablocks/duckdb-jev) - Six-condition gate (Brier, ECE, negation symmetry, rubric ordinality) on 360 live requests: five of six pass. `jev-1.13.0 · n=360 rows`
+
+### Other
+
+- [gazelle93/decision-models-under-pressure](https://github.com/gazelle93/decision-models-under-pressure) - Seven decision models as the job gets harder three ways: longer candidate list, shuffled option order, harder distractors. Jev degrades slowest but flips one answer in seven on reorder alone, and one in twenty-three with the order held fixed. `n=200 per domain · K to 128`
 
 ## Input perturbation and context
 
@@ -181,6 +189,7 @@ Text planted in the state to move Jev's own verdict. Jev used as an injection *d
 - [Prompt injection can influence the verdict (VentureBeat)](https://venturebeat.com/security/companies-are-putting-jev-in-charge-of-ai-age) - An agent action gate: block probability for `rm -rf ~/.ssh` fell from 0.76 to 0.48 after a fake pre-approval was injected into tool output.
 - [themsquared/jev-benchmark](https://github.com/themsquared/jev-benchmark) - 60 tool-call risk cases with adversarially worded destructive commands: 91.7% accuracy, every wrong answer at hedged confidence. `jev-1.13.0 · n=60 cases`
 - [willkelly/jev-evaluation](https://github.com/willkelly/jev-evaluation) - 123,805 requests: calibration holds on support routing (ECE 0.075) and collapses on random 3-SAT, where the probability barely moves as the true rate spans 0 to 1. `jev-1.13.0 · n=123,805 requests · pre-registered`
+- [xzx34/JevOut](https://github.com/xzx34/JevOut) - JevOut: fluent, answer-preserving context added to the state redirects an initially-correct Jev decision to a pre-chosen wrong option; 312 of 508 items flip (61.4%) within 64 target evaluations, 229 pushed past 0.7 on the wrong target. Paper arXiv:2609.30243. `n=508 decisions`
 - [zkousama/jagged](https://github.com/zkousama/jagged) - 486 Wikipedia deletion discussions: 96.5% accurate at baseline, 26.5% under a one-line injected instruction; mirrored questions disagree. `jev-1.13.0 · n=486 · pre-registered`
 
 ## Abstention and unanswerable inputs
@@ -233,6 +242,7 @@ Matched English and non-English items, so the effect of input language is isolat
 - [4nt0ineb/typed-decision-bench](https://github.com/4nt0ineb/typed-decision-bench) - English vs French intents: Jev loses one point (85% to 84%) where the other models lose four to eight; ECE 0.07 in English, 0.06 in French. `jev-1.13.0 · n=60 intents × 500`
 - [AHTOOOXA/jev-cyrillic-audit](https://github.com/AHTOOOXA/jev-cyrillic-audit) - 600 paired XNLI items: Russian 77.3% vs English 88.3%, ECE 0.096 vs 0.032; traced to cross-lingual entailment, not tokenization or length. `jev-1.13.0 · n=600 pairs · pre-registered`
 - [ArmanJR/Jev-Persian-Benchmark](https://github.com/ArmanJR/Jev-Persian-Benchmark) - 480 authored Persian and Finglish questions in 10 categories: 99.6% Choice, 99.4% Noul, 95.0% Score, parity with English. `jev-1.13.0 · n=480 questions`
+- [CodyQin/zh-decision-bench](https://github.com/CodyQin/zh-decision-bench) - First Chinese calibration benchmark for Jev-class decision models; 28% of customer-service answers flip on option reorder (voice 10.6%), 12.8% flip simplified-to-traditional, refit temperatures 1.33 to 5.70 show systematic over-confidence. Jev adapter ready but not yet run. `Laya/Qwen · n=219 items`
 - [mahlernim/jev-korean-benchmark](https://github.com/mahlernim/jev-korean-benchmark) - Korean vs English on four public exams, 100 per cell: no cost on reading comprehension, 8 points behind GPT-5.6 Luna on the Korean medical exam. `n=800 questions`
 - [marcosmartinez/jev-acento](https://github.com/marcosmartinez/jev-acento) - Same items in English and Spanish: 3.0 to 6.4 points lost and calibration error roughly doubled on the two hardest of four datasets; Spanish instructions do not help. `jev-1.13.0 · n=3,200 items`
 
@@ -281,7 +291,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-09-24.}
+  note         = {Curated list. Accessed 2026-09-26.}
 }
 ```
 
