@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-123 entries · almost all against `jev-1.13.0` · snapshot 2026-09-26 · numbers are the authors' own
+126 entries · almost all against `jev-1.13.0` · snapshot 2026-09-28 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -72,6 +72,7 @@ Preprints that evaluate hosted Jev on a robustness or calibration question. Appl
 
 - [Evaluating Decision Models for Text Annotation in Computational Social Science](https://arxiv.org/abs/2609.24574) - Ibrahim and Zaki. 18 social-science annotation tasks against 19 LLMs: trails the best LLM by a median 11.6 macro-F1, better calibrated than 16 of 19, but reports high confidence at near chance on empathy. `jev-1.13.0 · n=7,977 items`
 - [JEV-as-a-Judge: Accept When Confident, Escalate When Unsure](https://arxiv.org/abs/2609.26550) - Li, Miao, Krishnan and Padman. Jev as a judge against 16 judges with human adjudication: within 3 points of the strongest on ordinary preference, larger gaps on derivations and elaborately written wrong answers, concentrated in low-confidence decisions. `jev-1.13.0`
+- [JevAdvBench: A Benchmark and Black-Box Attacks for Reinforcement Learning for Calibrated Decisions Models](https://arxiv.org/abs/2609.31142) - Hu et al.: the first adversarial benchmark for typed decision models, scoring each attacked decision against the model's own clean answer and an identical re-run. Rewording stays within 1.2pp and out-of-schema fields never reach the model, but one appended unverified opinion flips 12.1% of decisions and pushes 38% of confident answers below the 0.8 review threshold. `jev-1.13.0 · 812 questions / 9,744 edits`
 - [Type-Safe Is Not Error-Free: A Constrained Decision Head Follows the Option Name, Not the Rubric Bound to It](https://arxiv.org/abs/2609.26758) - Sun and Xu. Swapping only which option name is bound to which rubric changes 70.4 answers per hundred in open Jev-like heads; hosted Jev drops from AUC .81 to .58, 24x its test-retest floor. Random-string names remove the effect. `jev-1.13.0 · n=1,200 decisions`
 
 ## Calibration and confidence
@@ -155,6 +156,7 @@ Whether the same judgment comes back the same way.
 ### Other
 
 - [gazelle93/decision-models-under-pressure](https://github.com/gazelle93/decision-models-under-pressure) - Seven decision models as the job gets harder three ways: longer candidate list, shuffled option order, harder distractors. Jev degrades slowest but flips one answer in seven on reorder alone, and one in twenty-three with the order held fixed. `n=200 per domain · K to 128`
+- [pobooo/jev-dice](https://github.com/pobooo/jev-dice) - Does Jev play dice? On a die with no correct answer it picks the first-listed option on all 2,000 identical requests (position bias plus non-determinism); option order barely matters once there is a correct answer. `jev-1.13.0 · n=2,000/prompt`
 
 ## Input perturbation and context
 
@@ -174,6 +176,7 @@ How much the answer moves when the input or the criteria are reworded, enriched 
 - [Selmar/typesafe-jev-calibrate-for-code-review](https://github.com/Selmar/typesafe-jev-calibrate-for-code-review) - Rule-by-rule probes against a 0.60 threshold for C# review: comment rules improve with whole-file context, and Jev reads facts better than it derives them.
 - [SYED-M-HUSSAIN/jev-experimental](https://github.com/SYED-M-HUSSAIN/jev-experimental) - Accuracy 83% to 100% once criteria, not the question, spelled out the boundary; Brier 0.038. `jev-1.13.0`
 - [tfolkman/jev-village](https://github.com/tfolkman/jev-village) - 60 simulated villagers: wording of the criteria alone flipped correct behaviour to incorrect across the whole population. `jev-1.13.0`
+- [zachlandes/jev-dialect-bias](https://github.com/zachlandes/jev-dialect-bias) - Reproduces Hofmann et al. (Nature 2024) on Jev: as a moderator it removes 17.8% of African American English posts vs 13.1% of matched standard-English ones (most of the gap from slurs/profanity); stating the writer is Black vs White flips death-sentence rates 29.5% vs 62.7% on identical text; a dialect-is-not-evidence line roughly halves the gap. `jev-1.13.0 · n=2,019 pairs`
 
 ## Prompt injection and adversarial inputs
 
@@ -291,7 +294,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-09-26.}
+  note         = {Curated list. Accessed 2026-09-28.}
 }
 ```
 
