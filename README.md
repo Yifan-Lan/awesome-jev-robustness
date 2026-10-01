@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-132 entries · almost all against `jev-1.13.0` · snapshot 2026-09-30 · numbers are the authors' own
+137 entries · almost all against `jev-1.13.0` · snapshot 2026-10-01 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -74,9 +74,11 @@ Preprints that evaluate hosted Jev on a robustness or calibration question. Appl
 - [Decision Hijacking: Prompt Injection Attacks on Jev's Typed Probabilistic Decisions](https://arxiv.org/abs/2609.28613) - Ren et al.: prompt-injection attacks on Jev over 510 reconstructed InjecAgent cases. Malicious content shifts action probabilities but rarely selects the attacker's target; adaptive attacks with score feedback double the mean attacker-target probability and lift fresh-validation success from 1.8% to 3.5%, concentrated where the initial decision margin is small. `jev-1.13.0 · n=510 cases`
 - [Evaluating Decision Models for Text Annotation in Computational Social Science](https://arxiv.org/abs/2609.24574) - Ibrahim and Zaki. 18 social-science annotation tasks against 19 LLMs: trails the best LLM by a median 11.6 macro-F1, better calibrated than 16 of 19, but reports high confidence at near chance on empathy. `jev-1.13.0 · n=7,977 items`
 - [Evaluating System One Models for Agent Security Decisions: Reliability, Calibration, and Selective Automation](https://arxiv.org/abs/2609.33401) - Evaluates Jev, Laya, Decider and Bespoke Nimble as agent-security judges (injection detection, risk, harmful-request screening) against classifiers and LLM judges. Strong aggregate accuracy and calibration hide failures concentrated in particular attack groups, including attacks classified safe with high confidence; adapted configurations don't consistently beat their base models. `jev-1.13.0 · 4 System One models`
+- [JEV vs. LLMs as Rubric Judges: Cheaper, Faster, and Wrong in the Same Places](https://arxiv.org/abs/2609.29769) - Compares Jev with three flash-tier LLM judges on nine panels from seven benchmarks with human judgments, same criterion texts. Jev can often stand in at 16-325x lower cost and 28-350x lower latency, and the judges tend to be wrong in the same places rather than failing independently. `jev-1.13.0 · 9 panels / 7 benchmarks`
 - [JEV-as-a-Judge: Accept When Confident, Escalate When Unsure](https://arxiv.org/abs/2609.26550) - Li, Miao, Krishnan and Padman. Jev as a judge against 16 judges with human adjudication: within 3 points of the strongest on ordinary preference, larger gaps on derivations and elaborately written wrong answers, concentrated in low-confidence decisions. `jev-1.13.0`
 - [JevAdvBench: A Benchmark and Black-Box Attacks for Reinforcement Learning for Calibrated Decisions Models](https://arxiv.org/abs/2609.31142) - Hu et al.: the first adversarial benchmark for typed decision models, scoring each attacked decision against the model's own clean answer and an identical re-run. Rewording stays within 1.2pp and out-of-schema fields never reach the model, but one appended unverified opinion flips 12.1% of decisions and pushes 38% of confident answers below the 0.8 review threshold. `jev-1.13.0 · 812 questions / 9,744 edits`
 - [Just Ask Jev: Reinforcement Learning for Calibrated Decisions as a Zero-Shot Detector of AI Alignment Failures](https://arxiv.org/abs/2609.29429) - RLCDAlignBench: Jev as a zero-shot detector of ten alignment-failure types (jailbreaks, prompt injection, deception, social bias, hallucination and more) across 44 benchmarks and five target models. A generic question reaches median AUROC 0.886 zero-shot, beating supervised TF-IDF and length baselines on 25 of 31 benchmarks; reading probabilities rather than argmax matters a lot. `jev-1.13.0 · 7,193 instances`
+- [Same Scores, Different Decisions: Evaluating JEV and Language Models for Legal Document Understanding](https://arxiv.org/abs/2609.27678) - Compares Jev with nine LLMs on ContractNLI, varying hypothesis visibility, requested outputs and output order while keeping the contract and judgment fixed, and measuring correctness across repeated-request conditions. Shows aggregate accuracy conceals changes in individual decisions and that repeated agreement can be consistently wrong; Jev is cheapest and fastest, hosted LLMs more accurate. `jev-1.13.0 · ContractNLI`
 - [Type-Safe Is Not Error-Free: A Constrained Decision Head Follows the Option Name, Not the Rubric Bound to It](https://arxiv.org/abs/2609.26758) - Sun and Xu. Swapping only which option name is bound to which rubric changes 70.4 answers per hundred in open Jev-like heads; hosted Jev drops from AUC .81 to .58, 24x its test-retest floor. Random-string names remove the effect. `jev-1.13.0 · n=1,200 decisions`
 - [Typed Decision Models: An Early Evidence Audit and Evaluation Checklist](https://arxiv.org/abs/2609.32160) - A meta-review of 28 early typed-decision-model papers (posted 19-24 Sep), relating them to label-probability classification, constrained decoding, reranking, calibration and cascades. Finds the typed readout shows no independent accuracy advantage over comparable label-probability readouts; Jev's clearest gains are latency and cost. Ends in an evaluation checklist. `28 papers reviewed`
 
@@ -124,6 +126,7 @@ Whether the probabilities mean what they say.
 ### Other
 
 - [GautamTalksDev/jevbench](https://github.com/GautamTalksDev/jevbench) - Preregistered, bias-corrected test of whether Jev lowers its confidence where humans disagree: ChaosNLI items with 100 annotations each, 750 low- and 750 high-disagreement. `jev-1.13.0 · pre-registered`
+- [lorenzofamiglini/calfram-bench](https://github.com/lorenzofamiglini/calfram-bench) - External calibration audit of Jev on 25 public benchmarks at natural prevalence with CalFram (ECE, ECI, Brier, log score), a GLiClass 0.44B baseline, contamination annotation and a cross-fitted recalibration study. Measures the calibration the vendor does not publish and whether local recalibration repairs it; binned ECE is read against a bootstrap noise floor. `jev-1.13.0 · 25 benchmarks`
 - [yanng981/system-one-benchmark](https://github.com/yanng981/system-one-benchmark) - Accuracy, ECE and latency of six System One models through one /v1/systemone contract; Jev leads multilingual (0.872 non-English average) at ECE 0.020 to 0.083, across SST-2, TREC, Banking77 and eight languages. `jev-1.13.0 · n=300/dataset`
 
 ## Consistency and invariance
@@ -205,6 +208,7 @@ Text planted in the state to move Jev's own verdict. Jev used as an injection *d
 
 What Jev does when no option is right or the answer is not in the state.
 
+- [andre-langchain/calibration-probe](https://github.com/andre-langchain/calibration-probe) - Does a System One model's confidence drop when the evidence cannot answer? 48 questions asked with and without an explicit insufficient-evidence option. Without one, Jev answers 47% of unanswerable questions confidently (SemIf 60%, Claude 20%); adding the option moves 77% to abstain but 13% still answer confidently. `jev-1.13.0 · n=48 questions`
 - [baibizhe/jev-decision-benchmarks](https://github.com/baibizhe/jev-decision-benchmarks) - Tool selection and abstention (MetaTool, When2Call, BFCL): best abstention on MetaTool, but hallucinates a tool call on 76% of When2Call's no-tool cases. `jev-1.13.0 · n=10,938 requests`
 - [jujumilk3/jev-calibration-audit](https://github.com/jujumilk3/jev-calibration-audit) - Removing the abstain option takes KoBBQ accuracy from 0.950 to 0.000 and ECE from 0.023 to 0.793; option order, batching and instruction language show negligible effect. `jev-1.13.0 · n=11,759 items`
 - [scienthoon/jev-ood-calibration](https://github.com/scienthoon/jev-ood-calibration) - Near-calibrated on three public sets; on an unseen rule task ECE is 4.4x the noise floor and the unknowable label gets 0.74 average probability. `jev-1.13.0 · n=900 tickets`
@@ -264,6 +268,7 @@ Harnesses built to probe wording, ordering or calibration, listed when they ship
 - [rssr25/sys1bench](https://github.com/rssr25/sys1bench) - sys1bench (formerly system-one-bench): suites on generated manifests (n=500) for Jev, Laya and Kev: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
 - [smkrv/jev-calibrate](https://github.com/smkrv/jev-calibrate) - Grades a question's answers against labels: vague criteria 0.69 to 0.89 accuracy on the bundled example, rewritten criteria 0.92 to 1.00. `jev-1.13.0`
 - [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Checks published Jev outputs against the confidence and expected-score identities without live calls: 279,842 answers from 88 repositories, 96.79% conform; one Jev-compatible implementation uses normalised entropy instead and reorders 9.96% of pairs. `n=279,842 answers`
+- [SuperInstance/typesafe-quilts](https://github.com/SuperInstance/typesafe-quilts) - Zero-dependency System One calibration instrument live against jev-1.13.0: a known-answer battery with Brier decomposition and a negative-control harness, plus receipted routing judgments. On 20 known answers Brier is 0.1133 and Jev is honest in mid/high bands but over-predicts every truth below 0.4 (truth-MSE 11.5x worse there); outcome permutation p=0/2000. `jev-1.13.0 · n=20 battery`
 - [xxlya/evaljev](https://github.com/xxlya/evaljev) - Derives the confidence-margin formula from live traces and measures the distribution shift between batched and separate requests. `n=351 decisions`
 
 ## Write-ups, critiques and evidence ledgers
@@ -300,7 +305,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-09-30.}
+  note         = {Curated list. Accessed 2026-10-01.}
 }
 ```
 
