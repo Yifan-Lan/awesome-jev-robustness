@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-137 entries · almost all against `jev-1.13.0` · snapshot 2026-10-01 · numbers are the authors' own
+139 entries · almost all against `jev-1.13.0` · snapshot 2026-10-03 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -72,6 +72,7 @@ Preprints that evaluate hosted Jev on a robustness or calibration question. Appl
 
 - [Beyond Calibration: Do a Typed-Decision Model's Probabilities Obey the Probability Axioms?](https://arxiv.org/abs/2609.33209) - Li et al.: whether Jev's probabilities for logically related questions cohere (obey the probability axioms), tested label-free. On 480 negation pairs, P('label is X') and P('label is not X') miss summing to one by 0.064 on average (95% CI 0.055-0.072). `jev-1.13.0 · n=160 items`
 - [Decision Hijacking: Prompt Injection Attacks on Jev's Typed Probabilistic Decisions](https://arxiv.org/abs/2609.28613) - Ren et al.: prompt-injection attacks on Jev over 510 reconstructed InjecAgent cases. Malicious content shifts action probabilities but rarely selects the attacker's target; adaptive attacks with score feedback double the mean attacker-target probability and lift fresh-validation success from 1.8% to 3.5%, concentrated where the initial decision margin is small. `jev-1.13.0 · n=510 cases`
+- [Evaluating and Benchmarking the System One Model Jev](https://arxiv.org/abs/2609.37647) - Deusser et al.: the largest independent Jev evaluation so far, 37 datasets and 346,009 requests for under $10, against Qwen3.8-27B and Gemma-4-E4B scored by exact next-token probabilities. Jev beats Qwen on 27/37 and Gemma on 37/37; choice probabilities are well calibrated, binary ones rank well but sit badly against a fixed 0.5 threshold (UNFAIR-ToS micro-F1 0.50 to 0.75 once tuned); rotating options leaves accuracy unchanged while withholding the question drops it to chance, ruling out shallow memorization only. `jev-1.13.0 · 37 datasets / 346,009 requests`
 - [Evaluating Decision Models for Text Annotation in Computational Social Science](https://arxiv.org/abs/2609.24574) - Ibrahim and Zaki. 18 social-science annotation tasks against 19 LLMs: trails the best LLM by a median 11.6 macro-F1, better calibrated than 16 of 19, but reports high confidence at near chance on empathy. `jev-1.13.0 · n=7,977 items`
 - [Evaluating System One Models for Agent Security Decisions: Reliability, Calibration, and Selective Automation](https://arxiv.org/abs/2609.33401) - Evaluates Jev, Laya, Decider and Bespoke Nimble as agent-security judges (injection detection, risk, harmful-request screening) against classifiers and LLM judges. Strong aggregate accuracy and calibration hide failures concentrated in particular attack groups, including attacks classified safe with high confidence; adapted configurations don't consistently beat their base models. `jev-1.13.0 · 4 System One models`
 - [JEV vs. LLMs as Rubric Judges: Cheaper, Faster, and Wrong in the Same Places](https://arxiv.org/abs/2609.29769) - Compares Jev with three flash-tier LLM judges on nine panels from seven benchmarks with human judgments, same criterion texts. Jev can often stand in at 16-325x lower cost and 28-350x lower latency, and the judges tend to be wrong in the same places rather than failing independently. `jev-1.13.0 · 9 panels / 7 benchmarks`
@@ -265,6 +266,7 @@ Harnesses built to probe wording, ordering or calibration, listed when they ship
 
 - [brida-ai/reflexbench](https://github.com/brida-ai/reflexbench) - Reports semantic accuracy, calibration, language consistency and option-order robustness separately rather than one score, on a frozen 111-case cohort. `jev-1.13.0 · n=111 cases`
 - [FlorianRiquelme/jev-kit](https://github.com/FlorianRiquelme/jev-kit) - Harness whose example run on 15 project fixtures gets 81.7% overall and flags one indirect compound question at 46.7%, below a coin flip.
+- [mertkayacs/jevoss](https://github.com/mertkayacs/jevoss) - Harness for any model speaking the Jev API with five robustness probes: option permutation, hidden-instruction injection, 600-word distractor padding, negated Noul questions and repeated-call determinism. Measured runs cover Intern-Decision-4B, Kev-4B, Laya and JevAlt (Kev and Laya lose 5.4 and 10.4 points under padding vs 12.2 to 17.4 for JevAlt); its Jev 1.13 rows are quoted from a separate audit, not re-run. `harness · 100 items/probe`
 - [rssr25/sys1bench](https://github.com/rssr25/sys1bench) - sys1bench (formerly system-one-bench): suites on generated manifests (n=500) for Jev, Laya and Kev: calibration, wording sensitivity and cost scaling. `jev-1.13.0 · n=500`
 - [smkrv/jev-calibrate](https://github.com/smkrv/jev-calibrate) - Grades a question's answers against labels: vague criteria 0.69 to 0.89 accuracy on the bundled example, rewritten criteria 0.92 to 1.00. `jev-1.13.0`
 - [stillmarcus24/jev-verify](https://github.com/stillmarcus24/jev-verify) - Checks published Jev outputs against the confidence and expected-score identities without live calls: 279,842 answers from 88 repositories, 96.79% conform; one Jev-compatible implementation uses normalised entropy instead and reorders 9.96% of pairs. `n=279,842 answers`
@@ -305,7 +307,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-10-01.}
+  note         = {Curated list. Accessed 2026-10-03.}
 }
 ```
 
