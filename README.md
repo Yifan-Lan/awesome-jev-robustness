@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-139 entries · almost all against `jev-1.13.0` · snapshot 2026-10-03 · numbers are the authors' own
+141 entries · almost all against `jev-1.13.0` · snapshot 2026-10-05 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -126,6 +126,7 @@ Whether the probabilities mean what they say.
 
 ### Other
 
+- [B-Deforce/jev-clef-calibration](https://github.com/B-Deforce/jev-clef-calibration) - Jev vs Cloudflare Clef on 500 sentiment sentences and 500 redacted SMS, scored on Brier and ECCE-R with paired bootstrap. Clef is better calibrated on the easy sentiment set (ECCE-R 0.012 vs 0.035); on SMS Jev has the lower Brier (0.063 vs 0.099) but worse ECCE-R (0.159 vs 0.133) and far higher spam precision (68.5% vs 47.7%). `jev-1.13.0 · n=500+500`
 - [GautamTalksDev/jevbench](https://github.com/GautamTalksDev/jevbench) - Preregistered, bias-corrected test of whether Jev lowers its confidence where humans disagree: ChaosNLI items with 100 annotations each, 750 low- and 750 high-disagreement. `jev-1.13.0 · pre-registered`
 - [lorenzofamiglini/calfram-bench](https://github.com/lorenzofamiglini/calfram-bench) - External calibration audit of Jev on 25 public benchmarks at natural prevalence with CalFram (ECE, ECI, Brier, log score), a GLiClass 0.44B baseline, contamination annotation and a cross-fitted recalibration study. Measures the calibration the vendor does not publish and whether local recalibration repairs it; binned ECE is read against a bootstrap noise floor. `jev-1.13.0 · 25 benchmarks`
 - [yanng981/system-one-benchmark](https://github.com/yanng981/system-one-benchmark) - Accuracy, ECE and latency of six System One models through one /v1/systemone contract; Jev leads multilingual (0.872 non-English average) at ECE 0.020 to 0.083, across SST-2, TREC, Banking77 and eight languages. `jev-1.13.0 · n=300/dataset`
@@ -199,6 +200,7 @@ Text planted in the state to move Jev's own verdict. Jev used as an injection *d
 - [finrod21/jev-transaction-guard](https://github.com/finrod21/jev-transaction-guard) - Injection bait inside a transaction memo trips the circuit breaker at 0.99; verdicts and token counts identical across five repeats. `jev-latest`
 - [Foshowithit/jev-rcos-study](https://github.com/Foshowithit/jev-rcos-study) - Falsification-first: confidence gating AUC 0.44 (inverted, falsified); 13 of 13 adversarial near-duplicate candidates resisted. `jev-1.13.0`
 - [Iskandeur/system1-system2](https://github.com/Iskandeur/system1-system2) - 600 MASSIVE utterances: one injected payload flips GPT-5.2 on all 80 trials and Jev on 26 of 80; Jev ECE 4.5%. `jev-1.13.0 · n=600 utterances`
+- [Makabeez/jev-news-bench](https://github.com/Makabeez/jev-news-bench) - Prompt injection on Polymarket headlines, Jev vs gpt-oss-20b, five attack families plus a control. Jev barely moves under literal injected instructions (+34% vs Groq +92%) but folds when the text argues with it: negation flips +87%, confidence claims +83%, fake source authority +72%; a confidence gate admits some attacks more readily than honest answers (lift 1.4x). 'You can't tell Jev what to output; you can tell it what to believe.' `jev-1.13.0 · 6,300 injection calls`
 - [Prompt injection can influence the verdict (VentureBeat)](https://venturebeat.com/security/companies-are-putting-jev-in-charge-of-ai-age) - An agent action gate: block probability for `rm -rf ~/.ssh` fell from 0.76 to 0.48 after a fake pre-approval was injected into tool output.
 - [themsquared/jev-benchmark](https://github.com/themsquared/jev-benchmark) - 60 tool-call risk cases with adversarially worded destructive commands: 91.7% accuracy, every wrong answer at hedged confidence. `jev-1.13.0 · n=60 cases`
 - [willkelly/jev-evaluation](https://github.com/willkelly/jev-evaluation) - 123,805 requests: calibration holds on support routing (ECE 0.075) and collapses on random 3-SAT, where the probability barely moves as the true rate spans 0 to 1. `jev-1.13.0 · n=123,805 requests · pre-registered`
@@ -307,7 +309,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-10-03.}
+  note         = {Curated list. Accessed 2026-10-05.}
 }
 ```
 
