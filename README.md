@@ -2,7 +2,7 @@
 
 > How [Jev](https://typesafe.ai)'s answers move, and whether its probabilities can be trusted. Independent tests of TypeSafe's System One decision model, grouped by what they measured.
 
-146 entries · almost all against `jev-1.13.0` · snapshot 2026-10-07 · numbers are the authors' own
+149 entries · almost all against `jev-1.13.0` · snapshot 2026-10-12 · numbers are the authors' own
 
 Most of these were run in the two weeks after Jev's release on 15 September 2026, usually by one person with a small budget. Read them as evidence to inspect, not settled results. Task benchmarks that only report an accuracy are kept out of this page; they are in [`data/task_benchmarks.tsv`](data/task_benchmarks.tsv). The machine-readable version of this page is [`data/entries.tsv`](data/entries.tsv).
 
@@ -86,6 +86,7 @@ Preprints that evaluate hosted Jev on a robustness or calibration question. Appl
 - [Same Scores, Different Decisions: Evaluating JEV and Language Models for Legal Document Understanding](https://arxiv.org/abs/2609.27678) - Compares Jev with nine LLMs on ContractNLI, varying hypothesis visibility, requested outputs and output order while keeping the contract and judgment fixed, and measuring correctness across repeated-request conditions. Shows aggregate accuracy conceals changes in individual decisions and that repeated agreement can be consistently wrong; Jev is cheapest and fastest, hosted LLMs more accurate. `jev-1.13.0 · ContractNLI`
 - [Type-Safe Is Not Error-Free: A Constrained Decision Head Follows the Option Name, Not the Rubric Bound to It](https://arxiv.org/abs/2609.26758) - Sun and Xu. Swapping only which option name is bound to which rubric changes 70.4 answers per hundred in open Jev-like heads; hosted Jev drops from AUC .81 to .58, 24x its test-retest floor. Random-string names remove the effect. `jev-1.13.0 · n=1,200 decisions`
 - [Typed Decision Models: An Early Evidence Audit and Evaluation Checklist](https://arxiv.org/abs/2609.32160) - A meta-review of 28 early typed-decision-model papers (posted 19-24 Sep), relating them to label-probability classification, constrained decoding, reranking, calibration and cascades. Finds the typed readout shows no independent accuracy advantage over comparable label-probability readouts; Jev's clearest gains are latency and cost. Ends in an evaluation checklist. `28 papers reviewed`
+- [TypedBench: A Benchmark for Calibration, Framing Sensitivity, and Cost in System One Decision Models](https://arxiv.org/abs/2610.11392) - Sharma et al.: TypedBench, seven policy-labelled generators and nine suites that report accuracy as median and range across paraphrases, calibration against a matched perfectly-calibrated null, selective prediction, ordinal scoring and realised cost under asymmetric costs. Hosted Jev follows the stated policy but is wording-sensitive and systematically underconfident; under asymmetric costs, acting on its probabilities can be worse than taking its top answer. Open 0.8B-9B decoders route exactly but slow down and degrade as options grow. `jev-1.13.0 · 7 generators / 9 suites`
 
 ## Calibration and confidence
 
@@ -172,6 +173,7 @@ Whether the same judgment comes back the same way.
 
 - [gazelle93/decision-models-under-pressure](https://github.com/gazelle93/decision-models-under-pressure) - Seven decision models as the job gets harder three ways: longer candidate list, shuffled option order, harder distractors. Jev degrades slowest but flips one answer in seven on reorder alone, and one in twenty-three with the order held fixed. `n=200 per domain · K to 128`
 - [Jonahss/jev-color-bias](https://github.com/Jonahss/jev-color-bias) - Jev favours whichever option is named 'blue' when evidence is balanced: over all 512 3x3 windows under four namings, the option called 'blue' gets +7 points over its colour-swapped twin (+5 when the names are swapped onto the other colour); A/B names remove the gap, and run-to-run noise is only 0.026. A clean option-name bias, echoing the 'follows the option name' paper. `jev-latest · 512 windows x 4 namings`
+- [kartikanand73/decision-api-benchmark](https://github.com/kartikanand73/decision-api-benchmark) - First head-to-head of three decision APIs on a fraud/takeover routing task: 500 cases in all six option orders, two full runs, bootstrap intervals. Jev is the most accurate (macro-F1 89.2% vs OpenAI Decisions 71.4%, Microsoft Decision-1 87.6%) but less order-invariant than Decision-1: same route in all six orders 91.6% vs 64.2% vs 97.2%, best-minus-worst order gap 8-10 pts vs 25.9 vs 1.2; Brier 0.117 vs 0.296 vs 0.112. `jev-1.13-20260917 · 9,165 calls x 2 runs`
 - [pobooo/jev-dice](https://github.com/pobooo/jev-dice) - Does Jev play dice? On a die with no correct answer it picks the first-listed option on all 2,000 identical requests (position bias plus non-determinism); option order barely matters once there is a correct answer. `jev-1.13.0 · n=2,000/prompt`
 
 ## Input perturbation and context
@@ -266,6 +268,7 @@ Matched English and non-English items, so the effect of input language is isolat
 - [CodyQin/zh-decision-bench](https://github.com/CodyQin/zh-decision-bench) - First Chinese calibration benchmark for Jev-class decision models; 28% of customer-service answers flip on option reorder (voice 10.6%), 12.8% flip simplified-to-traditional, refit temperatures 1.33 to 5.70 show systematic over-confidence. Jev adapter ready but not yet run. `Laya/Qwen · n=219 items`
 - [mahlernim/jev-korean-benchmark](https://github.com/mahlernim/jev-korean-benchmark) - Korean vs English on four public exams, 100 per cell: no cost on reading comprehension, 8 points behind GPT-5.6 Luna on the Korean medical exam. `n=800 questions`
 - [marcosmartinez/jev-acento](https://github.com/marcosmartinez/jev-acento) - Same items in English and Spanish: 3.0 to 6.4 points lost and calibration error roughly doubled on the two hardest of four datasets; Spanish instructions do not help. `jev-1.13.0 · n=3,200 items`
+- [mateusfonsek/openai-decisions-vs-jev-vs-laya](https://github.com/mateusfonsek/openai-decisions-vs-jev-vs-laya) - Brazilian-Portuguese benchmark of OpenAI Decisions, Jev and local Laya on routing, injection detection and judging with easy/ambiguous/adversarial slices. Jev and OpenAI tie on routing (88.0% vs 86.7%, adversarial slice 88% vs 86%) and injection (F1 96.6% vs 95.8%, AUROC 0.993 both); Jev is the better judge (exact 80.7% vs 72.0%, ECE 8.0% vs 11.7%); zero-shot Laya collapses in Portuguese (30.7% routing), option rotation lifts it to 40%. `jev-1.13.0 · 450 cases/provider`
 
 ## Evaluation tooling
 
@@ -314,7 +317,7 @@ If this list is useful in your work, cite it as a snapshot: the entries and the 
   title        = {Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model},
   year         = {2026},
   howpublished = {\url{https://github.com/Yifan-Lan/awesome-jev-robustness}},
-  note         = {Curated list. Accessed 2026-10-07.}
+  note         = {Curated list. Accessed 2026-10-12.}
 }
 ```
 
