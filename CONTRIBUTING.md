@@ -1,6 +1,6 @@
 # Contributing
 
-Add one line in the section that fits, in a pull request. The list is deliberately narrow: an entry has to show how Jev's answer or probability changes with wording, options, order, repetition, language, planted text or unanswerable input, or test whether the probability is calibrated. A task benchmark that only reports an accuracy belongs in `data/task_benchmarks.tsv`, not in the README. Keep the format of the lines around it:
+Add one line in the section that fits, in a pull request. The list is deliberately narrow: an entry has to report **a finding about change or failure**, that is, how Jev's answer or probability moves with wording, options, order, repetition, language, planted text or unanswerable input, or where its probability is miscalibrated (over- or under-confident, confidence that does not drop on unanswerable items, calibration that does not transfer). A score is not a finding. The following go in `data/task_benchmarks.tsv` and stay off the README page, however carefully they were run: accuracy, cost or latency comparisons against other models; general evaluations and leaderboards; domain benchmarks that report an ECE or Brier next to an accuracy without a miscalibration finding; and studies of Jev *as* a detector, judge or router that measure its capability rather than its sensitivity. Surveys and meta-reviews go in the write-ups section. Keep the format of the lines around it:
 
     - [name](url) - What was measured, on how many items, and the headline number.
 
