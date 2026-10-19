@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If this list is useful in your work, please cite it as a dated snapshot and cite the individual studies you rely on."
 type: dataset
-title: "Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of the Jev decision model"
+title: "Awesome Jev Robustness: independent tests of calibration, consistency and failure modes of Jev and other decision models"
 authors:
   - family-names: Lan
     given-names: Yifan
