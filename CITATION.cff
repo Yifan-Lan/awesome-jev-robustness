@@ -16,3 +16,24 @@ keywords:
   - calibration
   - robustness
   - decision models
+references:
+  - type: article
+    title: "DecisionRobust: Benchmarking Robustness for JEV Style Decision Models Across Text and Vision"
+    authors:
+      - family-names: Lan
+        given-names: Yifan
+      - family-names: Liu
+        given-names: Zhongye
+      - family-names: Chang
+        given-names: Yurui
+      - family-names: Wang
+        given-names: Hanyu
+      - family-names: Du
+        given-names: Yongkang
+      - family-names: Lin
+        given-names: Lu
+      - family-names: Chen
+        given-names: Jinghui
+    year: 2026
+    url: "https://arxiv.org/abs/2610.19118"
+    notes: "The list maintainer's own benchmark; listed in the README with that disclosure."
